@@ -36,16 +36,10 @@ Optional fields:
 |-----|---------|-------------|
 | `cache_dir` | `~/.onote/cache` | Where the local routing index is stored |
 
-## Installation
-
-Copy the skill into your agent's skill directory, or use [repo2skill](https://github.com/verneagent/tiny-skills):
+## Install
 
 ```bash
-# Manual
-cp -r onote ~/.agents/skills/onote
-
-# Or with repo2skill
-/repo2skill onote ~/code/verneagent/onote
+npx skills add -g verneagent/onote
 ```
 
 ## Usage
