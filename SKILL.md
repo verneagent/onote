@@ -27,7 +27,7 @@ Use this skill only when the user message explicitly contains the exact lowercas
 - Accept `onote <subcmd> ...` and `/onote <subcmd> ...`
 - Do not trigger on `Onote`, `ONOTE`, `oNote`, or natural-language requests like "记一下", "save this", or "jot this down"
 - Do not infer intent from context alone
-- A valid subcommand is required. Supported subcommands are `project`, `area`, `resource`, `quick`, and `todo`
+- A valid subcommand is required. Supported subcommands are `project`, `area`, `resource`, `quick`, `todo`, `sync`, and `lint`
 - There is no `archive` mode anymore
 
 When triggered, capture content into the Obsidian vault configured in `~/.onote/config.json` (`vault_path` key).
@@ -41,6 +41,7 @@ User-facing forms:
 - `onote quick <title or intent>`
 - `onote todo <work|life> <todo text>`
 - `onote sync [project|area|resource|all]`
+- `onote lint <file_or_dir>` — lint markdown for Obsidian-specific issues
 
 The user should only need these subcommands. Do not ask them to remember low-level script flags like `--reindex`.
 
@@ -119,6 +120,38 @@ Rules:
 - `work` goes to `✅ TODOs/work.md`
 - `life` goes to `✅ TODOs/life.md`
 - Use nearby context only to clarify the task text; keep the final line concise and actionable
+
+## Lint subcommand
+
+`onote lint` checks Obsidian markdown files for syntax issues that standard linters miss.
+
+### Usage
+
+```bash
+python3 scripts/lint.py <file_or_dir> [--fix] [--json]
+```
+
+- `<file_or_dir>`: a `.md` file or a directory (lints all `.md` files recursively)
+- `--fix`: auto-fix standard markdownlint issues (Obsidian-specific issues are report-only)
+- `--json`: output results as JSON
+
+### Checks
+
+**Obsidian-specific (OBS rules):**
+- `OBS001`: Unknown callout type (`> [!bogus]`)
+- `OBS002`: Unclosed wikilink (`[[broken`)
+- `OBS003`: Unpaired backtick (unclosed inline code)
+- `OBS004`: Unclosed Obsidian comment (`%%`)
+- `OBS005`: Unclosed markdown link (`[text](url` missing `)`)
+- `OBS006`: Unclosed code block (no matching `` ``` ``)
+
+**Standard markdown (MD rules via markdownlint-cli2):**
+- Uses markdownlint with Obsidian-friendly defaults (disabled: MD013 line length, MD033 inline HTML, MD041 first heading, MD028 blank in blockquote)
+
+### Requirements
+
+- `markdownlint-cli2` must be installed globally: `npm install -g markdownlint-cli2`
+- No confirmation needed — lint is read-only (unless `--fix` is passed)
 
 ## Local embedding router
 
