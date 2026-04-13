@@ -1,6 +1,6 @@
 ---
 name: onote
-description: "Save a note or TODO into an Obsidian vault. Trigger only when the user explicitly includes the exact lowercase word `onote`, and require a subcommand: `project`, `area`, `resource`, `quick`, or `todo`."
+description: "Save a note or TODO into an Obsidian vault. Trigger only when the user explicitly includes the exact lowercase word `onote`, and require a subcommand: `project`, `area`, `resource`, `quick`, or `todo`. Also trigger when the user says `Obsidian Note` (case-insensitive) in any context, including Lark handoff replies."
 ---
 
 # Onote
@@ -51,8 +51,13 @@ Use the surrounding conversation as source material. Do not save only the litera
 
 `onote` should capture the relevant context mentioned around the command, not just the command text itself.
 
+The goal is **integration**, not summarization:
+
+- **Integrate, don't summarize.** The note should read as a coherent, standalone article — not a condensed recap of a conversation. Preserve the substance: definitions, examples, reasoning, formulas, comparisons, and insights. A reader who wasn't in the conversation should be able to learn from the note directly.
+- **Merge related threads.** If the conversation covered multiple related topics (e.g., "what is X" followed by "how does X relate to Y"), weave them into one unified note with a logical structure, not two separate sections that mirror the Q&A order.
+- **Reorganize for clarity.** The note's structure should follow the topic's logic, not the conversation's chronological order. Group related ideas, build from foundations to advanced points, and add section headings that reflect the content.
+- **Keep the depth.** Do not flatten rich explanations into bullet-point summaries. If the conversation included worked examples, formulas, tables, or analogies that aid understanding, keep them in the note.
 - Pull in the concrete facts, decisions, examples, tradeoffs, or definitions from the current conversation
-- Compress and clean them into a readable note instead of dumping the whole transcript
 - Keep the note scoped to the requested subcommand
 - If the user provides almost no context, save only the explicit text they gave
 
